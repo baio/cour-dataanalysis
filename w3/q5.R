@@ -1,0 +1,13 @@
+#install.packages("ElemStatLearn")
+library(ElemStatLearn)
+data(zip.train)
+im8 = t(zip2image(zip.train,8))
+im18 = zip2image(zip.train,18)
+par(mfrow=c(1,3))
+image(t(im8))
+im8
+plot(colMeans(im8),xlab="Column",ylab="Col Mean",pch=19)
+plot(rowMeans(im8),1:16,,xlab="Row",ylab="Row Mean",pch=19)
+#image(im18)
+#heatmap(im8)
+#heatmap(im18)
