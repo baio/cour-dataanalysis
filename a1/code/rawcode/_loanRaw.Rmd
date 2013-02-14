@@ -1,0 +1,57 @@
+data in inconinient format!!!
+
+Loan Analysis
+=============
+
+------
+
+## Processing
+
+Download the data
+
+```{r loadData,cache=TRUE}
+getwd()
+download.file("https://spark-public.s3.amazonaws.com/dataanalysis/loansData.rda", destfile="../../data/loans.rda",method="curl")
+date()
+load("../../data/loans.rda")
+```
+
+### Look at the data set
+
+```{r, dependson="loadData"}
+head(loansData)
+summary(loansData)
+sapply(loansData[1,],class)
+```
+### Find out about missing values
+```{r, dependson="loadData"}
+sum(is.na(loansData)) #what are they?
+```
+
+### Find minimum and maximum interest rates
+```{r, dependson="loadData"}
+#should remove empty valuse
+levels(loansData$Interest.Rate)[1:2]
+tail(loansData$Interest.Rate,1)
+
+```
+
+## Exploratory analysis
+
+### Make some univariate plots/summaries
+
+
+```{r, dependson="loadData"}
+#barplot(table(loansData$FICO.Range), las=2)
+plot(loansData$Interest.Rate, xaxt = "n")
+plot(loansData$FICO.Range, las=2) #The classic FICO score is between 300 and 850 exhibiting a negative skewed distribution with 60% of people falling between approximately 650 and 799
+
+```
+
+### Make some univariate tables
+```{r, dependson="loadData"}
+table(loansData$FICO.Range)#some variables contains 0 values, should remove?
+table(loansData$Interest.Rate)
+```
+
+

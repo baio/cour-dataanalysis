@@ -1,0 +1,76 @@
+Raw Loan Analysis
+========================
+  
+## Processing
+
+Download the data, read the data in and save the raw data as an RDA file
+
+```{r loadData,cache=TRUE}
+getwd()
+download.file("https://spark-public.s3.amazonaws.com/dataanalysis/loansData.csv",destfile="../../data/loansData.csv",method="curl")
+dateDownloaded <- date()
+dateDownloaded
+loansRaw <- read.csv('../../data/loansData.csv')
+save(loansRaw,dateDownloaded,file="../../data/loansRaw.rda")
+```
+
+
+### Look at the data set
+
+```{r, dependson="loadData"}
+head(loansRaw)
+summary(loansRaw)
+sapply(loansRaw[1,],class)
+```
+
+### Find out about missing values
+```{r, dependson="loadData"}
+sum(is.na(loansRaw)) 
+```
+
+### Find minimum and maximum interest rates
+```{r, dependson="loadData"}
+rates <- as.numeric(sub("%", "", loansRaw$Interest.Rate))
+min(rates)
+max(rates)
+```
+
+### Find minimum and maximum debts to income ratio
+```{r, dependson="loadData"}
+ratio <- as.numeric(sub("%", "", loansRaw$Debt.To.Income.Ratio))
+min(ratio)
+max(ratio)
+```
+
+--------------------------
+
+## Exploratory analysis
+
+### Make some univariate plots/summaries
+
+
+```{r, dependson="loadData"}
+hist(rates)
+hist(ratio) 
+hist(log(loansRaw$Monthly.Income), breaks=50) 
+plot(loansRaw$FICO.Range, las=2) 
+hist(loansRaw$Amount.Requested)
+hist(loansRaw$Amount.Funded.By.Investors)
+hist(loansRaw$Open.CREDIT.Lines)
+hist(log(loansRaw$Revolving.CREDIT.Balance), breaks=50)
+plot(loansRaw$Employment.Length, las=2)
+plot(loansRaw$Home.Ownership, las=2) 
+```
+
+### Make some univariate tables
+```{r, dependson="loadData"}
+table(loansRaw$FICO.Range)
+table(loansRaw$Interest.Rate)
+table(loansRaw$Loan.Length)
+table(loansRaw$State)
+table(loansRaw$Loan.Purpose)
+table(loansRaw$Home.Ownership)
+table(loansRaw$Inquiries.in.the.Last.6.Months)
+table(loansRaw$Employment.Length)
+```
+

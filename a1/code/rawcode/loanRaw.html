@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<!-- saved from url=(0014)about:internet -->
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+
+<title>Raw Loan Analysis</title>
+
+<style type="text/css">
+body, td {
+   font-family: sans-serif;
+   background-color: white;
+   font-size: 12px;
+   margin: 8px;
+}
+
+tt, code, pre {
+   font-family: 'DejaVu Sans Mono', 'Droid Sans Mono', 'Lucida Console', Consolas, Monaco, monospace;
+}
+
+h1 { 
+   font-size:2.2em; 
+}
+
+h2 { 
+   font-size:1.8em; 
+}
+
+h3 { 
+   font-size:1.4em; 
+}
+
+h4 { 
+   font-size:1.0em; 
+}
+
+h5 { 
+   font-size:0.9em; 
+}
+
+h6 { 
+   font-size:0.8em; 
+}
+
+a:visited {
+   color: rgb(50%, 0%, 50%);
+}
+
+pre {	
+   margin-top: 0;
+   max-width: 95%;
+   border: 1px solid #ccc;
+   white-space: pre-wrap;
+}
+
+pre code {
+   display: block; padding: 0.5em;
+}
+
+code.r, code.cpp {
+   background-color: #F8F8F8;
+}
+
+table, td, th {
+  border: none;
+}
+
+blockquote {
+   color:#666666;
+   margin:0;
+   padding-left: 1em;
+   border-left: 0.5em #EEE solid;
+}
+
+hr {
+   height: 0px;
+   border-bottom: none;
+   border-top-width: thin;
+   border-top-style: dotted;
+   border-top-color: #999999;
+}
+
+@media print {
+   * { 
+      background: transparent !important; 
+      color: black !important; 
+      filter:none !important; 
+      -ms-filter: none !important; 
+   }
+
+   body { 
+      font-size:12pt; 
+      max-width:100%; 
+   }
+       
+   a, a:visited { 
+      text-decoration: underline; 
+   }
+
+   hr { 
+      visibility: hidden;
+      page-break-before: always;
+   }
+
+   pre, blockquote { 
+      padding-right: 1em; 
+      page-break-inside: avoid; 
+   }
+
+   tr, img { 
+      page-break-inside: avoid; 
+   }
+
+   img { 
+      max-width: 100% !important; 
+   }
+
+   @page :left { 
+      margin: 15mm 20mm 15mm 10mm; 
+   }
+     
+   @page :right { 
+      margin: 15mm 10mm 15mm 20mm; 
+   }
+
+   p, h2, h3 { 
+      orphans: 3; widows: 3; 
+   }
+
+   h2, h3 { 
+      page-break-after: avoid; 
+   }
+}
+
+</style>
+
+<!-- Styles for R syntax highlighter -->
+<style type="text/css">
+   pre .operator,
+   pre .paren {
+     color: rgb(104, 118, 135)
+   }
+
+   pre .literal {
+     color: rgb(88, 72, 246)
+   }
+
+   pre .number {
+     color: rgb(0, 0, 205);
+   }
+
+   pre .comment {
+     color: rgb(76, 136, 107);
+   }
+
+   pre .keyword {
+     color: rgb(0, 0, 255);
+   }
+
+   pre .identifier {
+     color: rgb(0, 0, 0);
+   }
+
+   pre .string {
+     color: rgb(3, 106, 7);
+   }
+</style>
+
+<!-- R syntax highlighter -->
+<script type="text/javascript">
+var hljs=new function(){function m(p){return p.replace(/&/gm,"&amp;").replace(/</gm,"&lt;")}function f(r,q,p){return RegExp(q,"m"+(r.cI?"i":"")+(p?"g":""))}function b(r){for(var p=0;p<r.childNodes.length;p++){var q=r.childNodes[p];if(q.nodeName=="CODE"){return q}if(!(q.nodeType==3&&q.nodeValue.match(/\s+/))){break}}}function h(t,s){var p="";for(var r=0;r<t.childNodes.length;r++){if(t.childNodes[r].nodeType==3){var q=t.childNodes[r].nodeValue;if(s){q=q.replace(/\n/g,"")}p+=q}else{if(t.childNodes[r].nodeName=="BR"){p+="\n"}else{p+=h(t.childNodes[r])}}}if(/MSIE [678]/.test(navigator.userAgent)){p=p.replace(/\r/g,"\n")}return p}function a(s){var r=s.className.split(/\s+/);r=r.concat(s.parentNode.className.split(/\s+/));for(var q=0;q<r.length;q++){var p=r[q].replace(/^language-/,"");if(e[p]){return p}}}function c(q){var p=[];(function(s,t){for(var r=0;r<s.childNodes.length;r++){if(s.childNodes[r].nodeType==3){t+=s.childNodes[r].nodeValue.length}else{if(s.childNodes[r].nodeName=="BR"){t+=1}else{if(s.childNodes[r].nodeType==1){p.push({event:"start",offset:t,node:s.childNodes[r]});t=arguments.callee(s.childNodes[r],t);p.push({event:"stop",offset:t,node:s.childNodes[r]})}}}}return t})(q,0);return p}function k(y,w,x){var q=0;var z="";var s=[];function u(){if(y.length&&w.length){if(y[0].offset!=w[0].offset){return(y[0].offset<w[0].offset)?y:w}else{return w[0].event=="start"?y:w}}else{return y.length?y:w}}function t(D){var A="<"+D.nodeName.toLowerCase();for(var B=0;B<D.attributes.length;B++){var C=D.attributes[B];A+=" "+C.nodeName.toLowerCase();if(C.value!==undefined&&C.value!==false&&C.value!==null){A+='="'+m(C.value)+'"'}}return A+">"}while(y.length||w.length){var v=u().splice(0,1)[0];z+=m(x.substr(q,v.offset-q));q=v.offset;if(v.event=="start"){z+=t(v.node);s.push(v.node)}else{if(v.event=="stop"){var p,r=s.length;do{r--;p=s[r];z+=("</"+p.nodeName.toLowerCase()+">")}while(p!=v.node);s.splice(r,1);while(r<s.length){z+=t(s[r]);r++}}}}return z+m(x.substr(q))}function j(){function q(x,y,v){if(x.compiled){return}var u;var s=[];if(x.k){x.lR=f(y,x.l||hljs.IR,true);for(var w in x.k){if(!x.k.hasOwnProperty(w)){continue}if(x.k[w] instanceof Object){u=x.k[w]}else{u=x.k;w="keyword"}for(var r in u){if(!u.hasOwnProperty(r)){continue}x.k[r]=[w,u[r]];s.push(r)}}}if(!v){if(x.bWK){x.b="\\b("+s.join("|")+")\\s"}x.bR=f(y,x.b?x.b:"\\B|\\b");if(!x.e&&!x.eW){x.e="\\B|\\b"}if(x.e){x.eR=f(y,x.e)}}if(x.i){x.iR=f(y,x.i)}if(x.r===undefined){x.r=1}if(!x.c){x.c=[]}x.compiled=true;for(var t=0;t<x.c.length;t++){if(x.c[t]=="self"){x.c[t]=x}q(x.c[t],y,false)}if(x.starts){q(x.starts,y,false)}}for(var p in e){if(!e.hasOwnProperty(p)){continue}q(e[p].dM,e[p],true)}}function d(B,C){if(!j.called){j();j.called=true}function q(r,M){for(var L=0;L<M.c.length;L++){if((M.c[L].bR.exec(r)||[null])[0]==r){return M.c[L]}}}function v(L,r){if(D[L].e&&D[L].eR.test(r)){return 1}if(D[L].eW){var M=v(L-1,r);return M?M+1:0}return 0}function w(r,L){return L.i&&L.iR.test(r)}function K(N,O){var M=[];for(var L=0;L<N.c.length;L++){M.push(N.c[L].b)}var r=D.length-1;do{if(D[r].e){M.push(D[r].e)}r--}while(D[r+1].eW);if(N.i){M.push(N.i)}return f(O,M.join("|"),true)}function p(M,L){var N=D[D.length-1];if(!N.t){N.t=K(N,E)}N.t.lastIndex=L;var r=N.t.exec(M);return r?[M.substr(L,r.index-L),r[0],false]:[M.substr(L),"",true]}function z(N,r){var L=E.cI?r[0].toLowerCase():r[0];var M=N.k[L];if(M&&M instanceof Array){return M}return false}function F(L,P){L=m(L);if(!P.k){return L}var r="";var O=0;P.lR.lastIndex=0;var M=P.lR.exec(L);while(M){r+=L.substr(O,M.index-O);var N=z(P,M);if(N){x+=N[1];r+='<span class="'+N[0]+'">'+M[0]+"</span>"}else{r+=M[0]}O=P.lR.lastIndex;M=P.lR.exec(L)}return r+L.substr(O,L.length-O)}function J(L,M){if(M.sL&&e[M.sL]){var r=d(M.sL,L);x+=r.keyword_count;return r.value}else{return F(L,M)}}function I(M,r){var L=M.cN?'<span class="'+M.cN+'">':"";if(M.rB){y+=L;M.buffer=""}else{if(M.eB){y+=m(r)+L;M.buffer=""}else{y+=L;M.buffer=r}}D.push(M);A+=M.r}function G(N,M,Q){var R=D[D.length-1];if(Q){y+=J(R.buffer+N,R);return false}var P=q(M,R);if(P){y+=J(R.buffer+N,R);I(P,M);return P.rB}var L=v(D.length-1,M);if(L){var O=R.cN?"</span>":"";if(R.rE){y+=J(R.buffer+N,R)+O}else{if(R.eE){y+=J(R.buffer+N,R)+O+m(M)}else{y+=J(R.buffer+N+M,R)+O}}while(L>1){O=D[D.length-2].cN?"</span>":"";y+=O;L--;D.length--}var r=D[D.length-1];D.length--;D[D.length-1].buffer="";if(r.starts){I(r.starts,"")}return R.rE}if(w(M,R)){throw"Illegal"}}var E=e[B];var D=[E.dM];var A=0;var x=0;var y="";try{var s,u=0;E.dM.buffer="";do{s=p(C,u);var t=G(s[0],s[1],s[2]);u+=s[0].length;if(!t){u+=s[1].length}}while(!s[2]);if(D.length>1){throw"Illegal"}return{r:A,keyword_count:x,value:y}}catch(H){if(H=="Illegal"){return{r:0,keyword_count:0,value:m(C)}}else{throw H}}}function g(t){var p={keyword_count:0,r:0,value:m(t)};var r=p;for(var q in e){if(!e.hasOwnProperty(q)){continue}var s=d(q,t);s.language=q;if(s.keyword_count+s.r>r.keyword_count+r.r){r=s}if(s.keyword_count+s.r>p.keyword_count+p.r){r=p;p=s}}if(r.language){p.second_best=r}return p}function i(r,q,p){if(q){r=r.replace(/^((<[^>]+>|\t)+)/gm,function(t,w,v,u){return w.replace(/\t/g,q)})}if(p){r=r.replace(/\n/g,"<br>")}return r}function n(t,w,r){var x=h(t,r);var v=a(t);var y,s;if(v){y=d(v,x)}else{return}var q=c(t);if(q.length){s=document.createElement("pre");s.innerHTML=y.value;y.value=k(q,c(s),x)}y.value=i(y.value,w,r);var u=t.className;if(!u.match("(\\s|^)(language-)?"+v+"(\\s|$)")){u=u?(u+" "+v):v}if(/MSIE [678]/.test(navigator.userAgent)&&t.tagName=="CODE"&&t.parentNode.tagName=="PRE"){s=t.parentNode;var p=document.createElement("div");p.innerHTML="<pre><code>"+y.value+"</code></pre>";t=p.firstChild.firstChild;p.firstChild.cN=s.cN;s.parentNode.replaceChild(p.firstChild,s)}else{t.innerHTML=y.value}t.className=u;t.result={language:v,kw:y.keyword_count,re:y.r};if(y.second_best){t.second_best={language:y.second_best.language,kw:y.second_best.keyword_count,re:y.second_best.r}}}function o(){if(o.called){return}o.called=true;var r=document.getElementsByTagName("pre");for(var p=0;p<r.length;p++){var q=b(r[p]);if(q){n(q,hljs.tabReplace)}}}function l(){if(window.addEventListener){window.addEventListener("DOMContentLoaded",o,false);window.addEventListener("load",o,false)}else{if(window.attachEvent){window.attachEvent("onload",o)}else{window.onload=o}}}var e={};this.LANGUAGES=e;this.highlight=d;this.highlightAuto=g;this.fixMarkup=i;this.highlightBlock=n;this.initHighlighting=o;this.initHighlightingOnLoad=l;this.IR="[a-zA-Z][a-zA-Z0-9_]*";this.UIR="[a-zA-Z_][a-zA-Z0-9_]*";this.NR="\\b\\d+(\\.\\d+)?";this.CNR="\\b(0[xX][a-fA-F0-9]+|(\\d+(\\.\\d*)?|\\.\\d+)([eE][-+]?\\d+)?)";this.BNR="\\b(0b[01]+)";this.RSR="!|!=|!==|%|%=|&|&&|&=|\\*|\\*=|\\+|\\+=|,|\\.|-|-=|/|/=|:|;|<|<<|<<=|<=|=|==|===|>|>=|>>|>>=|>>>|>>>=|\\?|\\[|\\{|\\(|\\^|\\^=|\\||\\|=|\\|\\||~";this.ER="(?![\\s\\S])";this.BE={b:"\\\\.",r:0};this.ASM={cN:"string",b:"'",e:"'",i:"\\n",c:[this.BE],r:0};this.QSM={cN:"string",b:'"',e:'"',i:"\\n",c:[this.BE],r:0};this.CLCM={cN:"comment",b:"//",e:"$"};this.CBLCLM={cN:"comment",b:"/\\*",e:"\\*/"};this.HCM={cN:"comment",b:"#",e:"$"};this.NM={cN:"number",b:this.NR,r:0};this.CNM={cN:"number",b:this.CNR,r:0};this.BNM={cN:"number",b:this.BNR,r:0};this.inherit=function(r,s){var p={};for(var q in r){p[q]=r[q]}if(s){for(var q in s){p[q]=s[q]}}return p}}();hljs.LANGUAGES.cpp=function(){var a={keyword:{"false":1,"int":1,"float":1,"while":1,"private":1,"char":1,"catch":1,"export":1,virtual:1,operator:2,sizeof:2,dynamic_cast:2,typedef:2,const_cast:2,"const":1,struct:1,"for":1,static_cast:2,union:1,namespace:1,unsigned:1,"long":1,"throw":1,"volatile":2,"static":1,"protected":1,bool:1,template:1,mutable:1,"if":1,"public":1,friend:2,"do":1,"return":1,"goto":1,auto:1,"void":2,"enum":1,"else":1,"break":1,"new":1,extern:1,using:1,"true":1,"class":1,asm:1,"case":1,typeid:1,"short":1,reinterpret_cast:2,"default":1,"double":1,register:1,explicit:1,signed:1,typename:1,"try":1,"this":1,"switch":1,"continue":1,wchar_t:1,inline:1,"delete":1,alignof:1,char16_t:1,char32_t:1,constexpr:1,decltype:1,noexcept:1,nullptr:1,static_assert:1,thread_local:1,restrict:1,_Bool:1,complex:1},built_in:{std:1,string:1,cin:1,cout:1,cerr:1,clog:1,stringstream:1,istringstream:1,ostringstream:1,auto_ptr:1,deque:1,list:1,queue:1,stack:1,vector:1,map:1,set:1,bitset:1,multiset:1,multimap:1,unordered_set:1,unordered_map:1,unordered_multiset:1,unordered_multimap:1,array:1,shared_ptr:1}};return{dM:{k:a,i:"</",c:[hljs.CLCM,hljs.CBLCLM,hljs.QSM,{cN:"string",b:"'\\\\?.",e:"'",i:"."},{cN:"number",b:"\\b(\\d+(\\.\\d*)?|\\.\\d+)(u|U|l|L|ul|UL|f|F)"},hljs.CNM,{cN:"preprocessor",b:"#",e:"$"},{cN:"stl_container",b:"\\b(deque|list|queue|stack|vector|map|set|bitset|multiset|multimap|unordered_map|unordered_set|unordered_multiset|unordered_multimap|array)\\s*<",e:">",k:a,r:10,c:["self"]}]}}}();hljs.LANGUAGES.r={dM:{c:[hljs.HCM,{cN:"number",b:"\\b0[xX][0-9a-fA-F]+[Li]?\\b",e:hljs.IMMEDIATE_RE,r:0},{cN:"number",b:"\\b\\d+(?:[eE][+\\-]?\\d*)?L\\b",e:hljs.IMMEDIATE_RE,r:0},{cN:"number",b:"\\b\\d+\\.(?!\\d)(?:i\\b)?",e:hljs.IMMEDIATE_RE,r:1},{cN:"number",b:"\\b\\d+(?:\\.\\d*)?(?:[eE][+\\-]?\\d*)?i?\\b",e:hljs.IMMEDIATE_RE,r:0},{cN:"number",b:"\\.\\d+(?:[eE][+\\-]?\\d*)?i?\\b",e:hljs.IMMEDIATE_RE,r:1},{cN:"keyword",b:"(?:tryCatch|library|setGeneric|setGroupGeneric)\\b",e:hljs.IMMEDIATE_RE,r:10},{cN:"keyword",b:"\\.\\.\\.",e:hljs.IMMEDIATE_RE,r:10},{cN:"keyword",b:"\\.\\.\\d+(?![\\w.])",e:hljs.IMMEDIATE_RE,r:10},{cN:"keyword",b:"\\b(?:function)",e:hljs.IMMEDIATE_RE,r:2},{cN:"keyword",b:"(?:if|in|break|next|repeat|else|for|return|switch|while|try|stop|warning|require|attach|detach|source|setMethod|setClass)\\b",e:hljs.IMMEDIATE_RE,r:1},{cN:"literal",b:"(?:NA|NA_integer_|NA_real_|NA_character_|NA_complex_)\\b",e:hljs.IMMEDIATE_RE,r:10},{cN:"literal",b:"(?:NULL|TRUE|FALSE|T|F|Inf|NaN)\\b",e:hljs.IMMEDIATE_RE,r:1},{cN:"identifier",b:"[a-zA-Z.][a-zA-Z0-9._]*\\b",e:hljs.IMMEDIATE_RE,r:0},{cN:"operator",b:"<\\-(?!\\s*\\d)",e:hljs.IMMEDIATE_RE,r:2},{cN:"operator",b:"\\->|<\\-",e:hljs.IMMEDIATE_RE,r:1},{cN:"operator",b:"%%|~",e:hljs.IMMEDIATE_RE},{cN:"operator",b:">=|<=|==|!=|\\|\\||&&|=|\\+|\\-|\\*|/|\\^|>|<|!|&|\\||\\$|:",e:hljs.IMMEDIATE_RE,r:0},{cN:"operator",b:"%",e:"%",i:"\\n",r:1},{cN:"identifier",b:"`",e:"`",r:0},{cN:"string",b:'"',e:'"',c:[hljs.BE],r:0},{cN:"string",b:"'",e:"'",c:[hljs.BE],r:0},{cN:"paren",b:"[[({\\])}]",e:hljs.IMMEDIATE_RE,r:0}]}};
+hljs.initHighlightingOnLoad();
+</script>
+
+
+
+
+</head>
+
+<body>
+<h1>Raw Loan Analysis</h1>
+
+<h2>Processing</h2>
+
+<p>Download the data, read the data in and save the raw data as an RDA file</p>
+
+<pre><code class="r">getwd()
+</code></pre>
+
+<pre><code>## [1] &quot;C:/dev/coursera/cour-dataanalysis/a1/code/rawcode&quot;
+</code></pre>
+
+<pre><code class="r">download.file(&quot;https://spark-public.s3.amazonaws.com/dataanalysis/loansData.csv&quot;, 
+    destfile = &quot;../../data/loansData.csv&quot;, method = &quot;curl&quot;)
+dateDownloaded &lt;- date()
+dateDownloaded
+</code></pre>
+
+<pre><code>## [1] &quot;Thu Feb 14 17:02:04 2013&quot;
+</code></pre>
+
+<pre><code class="r">loansRaw &lt;- read.csv(&quot;../../data/loansData.csv&quot;)
+save(loansRaw, dateDownloaded, file = &quot;../../data/loansRaw.rda&quot;)
+</code></pre>
+
+<h3>Look at the data set</h3>
+
+<pre><code class="r">head(loansRaw)
+</code></pre>
+
+<pre><code>##       Amount.Requested Amount.Funded.By.Investors Interest.Rate
+## 81174            20000                      20000         8.90%
+## 99592            19200                      19200        12.12%
+## 80059            35000                      35000        21.98%
+## 15825            10000                       9975         9.99%
+## 33182            12000                      12000        11.71%
+## 62403             6000                       6000        15.31%
+##       Loan.Length       Loan.Purpose Debt.To.Income.Ratio State
+## 81174   36 months debt_consolidation               14.90%    SC
+## 99592   36 months debt_consolidation               28.36%    TX
+## 80059   60 months debt_consolidation               23.81%    CA
+## 15825   36 months debt_consolidation               14.30%    KS
+## 33182   36 months        credit_card               18.78%    NJ
+## 62403   36 months              other               20.05%    CT
+##       Home.Ownership Monthly.Income FICO.Range Open.CREDIT.Lines
+## 81174       MORTGAGE           6542    735-739                14
+## 99592       MORTGAGE           4583    715-719                12
+## 80059       MORTGAGE          11500    690-694                14
+## 15825       MORTGAGE           3833    695-699                10
+## 33182           RENT           3195    695-699                11
+## 62403            OWN           4892    670-674                17
+##       Revolving.CREDIT.Balance Inquiries.in.the.Last.6.Months
+## 81174                    14272                              2
+## 99592                    11140                              1
+## 80059                    21977                              1
+## 15825                     9346                              0
+## 33182                    14469                              0
+## 62403                    10391                              2
+##       Employment.Length
+## 81174          &lt; 1 year
+## 99592           2 years
+## 80059           2 years
+## 15825           5 years
+## 33182           9 years
+## 62403           3 years
+</code></pre>
+
+<pre><code class="r">summary(loansRaw)
+</code></pre>
+
+<pre><code>##  Amount.Requested Amount.Funded.By.Investors Interest.Rate 
+##  Min.   : 1000    Min.   :    0              12.12% : 122  
+##  1st Qu.: 6000    1st Qu.: 6000              7.90%  : 119  
+##  Median :10000    Median :10000              13.11% : 115  
+##  Mean   :12406    Mean   :12002              15.31% :  76  
+##  3rd Qu.:17000    3rd Qu.:16000              14.09% :  72  
+##  Max.   :35000    Max.   :35000              14.33% :  69  
+##                                              (Other):1927  
+##     Loan.Length               Loan.Purpose  Debt.To.Income.Ratio
+##  36 months:1952   debt_consolidation:1307   0%     :   8        
+##  60 months: 548   credit_card       : 444   12.54% :   6        
+##                   other             : 201   12.20% :   5        
+##                   home_improvement  : 152   12.85% :   5        
+##                   major_purchase    : 101   14.22% :   5        
+##                   small_business    :  87   14.66% :   5        
+##                   (Other)           : 208   (Other):2466        
+##      State       Home.Ownership Monthly.Income     FICO.Range  
+##  CA     : 433   MORTGAGE:1148   Min.   :   588   670-674: 171  
+##  NY     : 255   NONE    :   1   1st Qu.:  3500   675-679: 166  
+##  TX     : 174   OTHER   :   5   Median :  5000   680-684: 157  
+##  FL     : 169   OWN     : 200   Mean   :  5689   695-699: 153  
+##  IL     : 101   RENT    :1146   3rd Qu.:  6800   665-669: 145  
+##  GA     :  98                   Max.   :102750   690-694: 140  
+##  (Other):1270                   NA&#39;s   :1        (Other):1568  
+##  Open.CREDIT.Lines Revolving.CREDIT.Balance Inquiries.in.the.Last.6.Months
+##  Min.   : 2.0      Min.   :     0           Min.   :0.000                 
+##  1st Qu.: 7.0      1st Qu.:  5586           1st Qu.:0.000                 
+##  Median : 9.0      Median : 10962           Median :0.000                 
+##  Mean   :10.1      Mean   : 15245           Mean   :0.906                 
+##  3rd Qu.:13.0      3rd Qu.: 18889           3rd Qu.:1.000                 
+##  Max.   :38.0      Max.   :270800           Max.   :9.000                 
+##  NA&#39;s   :2         NA&#39;s   :2                NA&#39;s   :2                     
+##  Employment.Length
+##  10+ years:653    
+##  &lt; 1 year :250    
+##  2 years  :244    
+##  3 years  :235    
+##  5 years  :202    
+##  4 years  :192    
+##  (Other)  :724
+</code></pre>
+
+<pre><code class="r">sapply(loansRaw[1, ], class)
+</code></pre>
+
+<pre><code>##               Amount.Requested     Amount.Funded.By.Investors 
+##                      &quot;integer&quot;                      &quot;numeric&quot; 
+##                  Interest.Rate                    Loan.Length 
+##                       &quot;factor&quot;                       &quot;factor&quot; 
+##                   Loan.Purpose           Debt.To.Income.Ratio 
+##                       &quot;factor&quot;                       &quot;factor&quot; 
+##                          State                 Home.Ownership 
+##                       &quot;factor&quot;                       &quot;factor&quot; 
+##                 Monthly.Income                     FICO.Range 
+##                      &quot;numeric&quot;                       &quot;factor&quot; 
+##              Open.CREDIT.Lines       Revolving.CREDIT.Balance 
+##                      &quot;integer&quot;                      &quot;integer&quot; 
+## Inquiries.in.the.Last.6.Months              Employment.Length 
+##                      &quot;integer&quot;                       &quot;factor&quot;
+</code></pre>
+
+<h3>Find out about missing values</h3>
+
+<pre><code class="r">sum(is.na(loansRaw))
+</code></pre>
+
+<pre><code>## [1] 7
+</code></pre>
+
+<h3>Find minimum and maximum interest rates</h3>
+
+<pre><code class="r">rates &lt;- as.numeric(sub(&quot;%&quot;, &quot;&quot;, loansRaw$Interest.Rate))
+min(rates)
+</code></pre>
+
+<pre><code>## [1] 5.42
+</code></pre>
+
+<pre><code class="r">max(rates)
+</code></pre>
+
+<pre><code>## [1] 24.89
+</code></pre>
+
+<hr/>
+
+<h2>Exploratory analysis</h2>
+
+<h3>Make some univariate plots/summaries</h3>
+
+<pre><code class="r">hist(rates)
+</code></pre>
+
+<p><img src="data:image/png;base64,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" alt="plot of chunk unnamed-chunk-4"/> </p>
+
+<pre><code class="r">plot(loansRaw$FICO.Range, las = 2)
+</code></pre>
+
+<p><img src="data:image/png;base64,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" alt="plot of chunk unnamed-chunk-4"/> </p>
+
+<pre><code class="r">hist(loansRaw$Amount.Requested)
+</code></pre>
+
+<p><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAfgAAAH4CAMAAACR9g9NAAAAq1BMVEX9/v0AAAAAADkAAGUAOTkAOWUAOY8AZmUAZo8AZrU5AAA5ADk5AGU5OY85ZmU5ZrU5j485j9plAABlADllAGVlOQBlOY9lZjllZmVlj49ltbVltdpltf2POQCPOTmPOWWPZgCPZo+Pj2WPtY+P27WP29qP2/21ZgC1Zjm1jzm1tWW124+1/rW1/v3ajznatWXa24/a/rXa/tra/v39tWX924/9/rX9/tr9/v0gngmQAAAAOXRSTlP//////////////////////////////////////////////////////////////////////////wA6rGVAAAAACXBIWXMAAAsSAAALEgHS3X78AAAQVElEQVR4nO2dDX+jtgGHS9Jlte+ynXPZ2nXOtddu8fpib9f47ft/siEhMHaEAWEH0P95fr/WOdBfwjxICNvYX+1Bkq/63gDoB8SLgnhREC8K4kVBvCiIFwXxoiBeFMSLgnhREC8K4kVBvCiIFwXxoiBeFMSLgnhREC8K4kVBvCiIFwXxoiDey2rW9xZcmz7Ebx9ul/v97ul2mf2Vs5h3qHQzTW6ei8rrNyExVBQ1a+9e9mYbk0mbjXDP4HzttfHyhtjNuAb9ij9avEi6iM/TrcQn3v2arTTG06Opjb3DNpypvT5e3pJIxdu/0r2b7t60c9mdvUofzDib/vv29/R5755uvk378jpdnPbodfJNunyZFsr3UVbepu1OyirPa3GxtK1fsx6YNeZK2f9nRexhuEoz6b7+b3L3ywdXzXemoeNWXd02sbVbmFWeP4N9uXZbep49n+RDVnrphOarXu+APPB9zOKz7nH3R/a8F0nW2+xu+HpqdpRZ+yUr9LJOclxPdOVPxOe1uLqzSsoLDmryJat0by/SEutktpne/WLP8ekm/jadZIdP0ephCwvxpW04FZ+VnuUbWhafr/LtAHcotx40mtOP+Hwvmn2T7ubsyZmRbjNN++f24eZ5M7U90O7WSR67Xa4TE0jmpohZVpQ/GuoPS92CtJJZqu/uJW8s34RJKTPbPnyXdmtbVzZebKYT66ncalF3WXxW+auhfrK37ZmSNrYuiy+tOtoBxVK3A64koX/x9l+mh5jnvbYq0t5n/8h2a+7PlFrbXmtMZkuL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" alt="plot of chunk unnamed-chunk-4"/> </p>
+
+<pre><code class="r">hist(loansRaw$Amount.Funded.By.Investors)
+</code></pre>
+
+<p><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAfgAAAH4CAMAAACR9g9NAAAArlBMVEX9/v0AAAAAADkAAGUAOTkAOWUAOY8AZo8AZrU5AAA5ADk5AGU5OWU5OY85ZmU5ZrU5j485j9plAABlADllAGVlOQBlOY9lZjllZmVlj49ltbVltdpltf2POQCPOTmPOWWPZgCPZo+Pj2WPtY+P27WP29qP2/21ZgC1Zjm1jzm1tWW124+1/rW1/tq1/v3ajznatWXa24/a/rXa/tra/v39tWX924/9/rX9/tr9/v3WIzj8AAAAOnRSTlP///////////////////////////////////////////////////////////////////////////8AN8D/CgAAAAlwSFlzAAALEgAACxIB0t1+/AAAEN9JREFUeJztnQub4rYVhuMhncJsp4nZyaUpbLvZFnLruN3FXP7/H6uutgF5bBBGlr7vfZ6ExZbPEXqtixkMXx0IJF+FrgAJA8WDQvGgUDwoFA8KxYNC8aBQPCgUDwrFg0LxoFA8KBQPCsWDQvGgUDwoFA8KxYNC8aBQPCgUDwrFg0LxoFA8KIjiizx0DUbAzcXv5pPXw2G/nLzqf1nWC4+g21n2sKqCd1chk7QUlXsfNwdZx2x6SSXMKxCHKdpez26uoju2mHod7+73kg6eDXjOgOKPNq9bG6oP9uiLxGenAho7pXFxNvVs86M6eIs/rldf8X4NeM7QPV60rmhe1ViisQvxIMdZ8Xzyh2iO/fLhB9GXS7FZ9Ogy+7PY/lrUjarLq6NVa+ngNoo5TOT6TfdvncyUUv/XRdRpWIhjhIL/Zo+/fmvC/CgTHWc1sdURO1VDHdy+gsY5fVZGnxQ/Kc2FOTXqLYe6Xv9ZqqrldmMVYK1SrG1TyQDOBjTtZl7vVQwsXp/kj190vdeZ7m3qZXw9k00m937WhTZlZjGvxpQ/EW+jmNgb0wXrDbV4u6UQbSibUzT2dvb4q2pxUcXfZ1N9+lRZ6xpWUht1aBXffF2qqjpO3thyqMWb+qjJy4g3AUpZcjcXe2yANxqwarerPA0g3raifEmimXW95Ei1nYlXJF/WdqZ6oGqyqT1s8lpm8oBsoV754VCXPxrq662Hqtly1WQ2ma3CtHFMvpv/KLq1adJcRZ/udc+rs1axm1J18NOh/vjksBUwr0vV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" alt="plot of chunk unnamed-chunk-4"/> </p>
+
+<h3>Make some univariate tables</h3>
+
+<pre><code class="r">table(loansRaw$FICO.Range)
+</code></pre>
+
+<pre><code>## 
+## 640-644 645-649 650-654 655-659 660-664 665-669 670-674 675-679 680-684 
+##       5       3       1       4     125     145     171     166     157 
+## 685-689 690-694 695-699 700-704 705-709 710-714 715-719 720-724 725-729 
+##     138     140     153     131     134     112      93     114      94 
+## 730-734 735-739 740-744 745-749 750-754 755-759 760-764 765-769 770-774 
+##      94      65      53      54      61      46      46      36      17 
+## 775-779 780-784 785-789 790-794 795-799 800-804 805-809 810-814 815-819 
+##      22      28      19      20      13      13      11       8       6 
+## 820-824 830-834 
+##       1       1
+</code></pre>
+
+<pre><code class="r">table(loansRaw$Interest.Rate)
+</code></pre>
+
+<pre><code>## 
+## 10.00% 10.08% 10.16% 10.20% 10.25% 10.28% 10.36% 10.37% 10.38% 10.46% 
+##      8      2     48      1      8      1      8      8     12      1 
+## 10.59% 10.62% 10.65% 10.74% 10.75% 10.83% 10.91% 10.95% 10.99% 11.03% 
+##     13      5     14     24     11      2      1      1     20      4 
+## 11.09% 11.11% 11.12% 11.14% 11.26% 11.36% 11.48% 11.49% 11.54% 11.58% 
+##      1      6      8     58      2      4      6     21      1      2 
+## 11.59% 11.66% 11.71% 11.78% 11.83% 11.86% 11.89% 11.97% 11.99% 12.12% 
+##      1      1     36      2      8      7      9      3     14    122 
+## 12.18% 12.21% 12.23% 12.29% 12.41% 12.42% 12.49% 12.53% 12.61% 12.68% 
+##      4      5      3      2      1     17      1     10      5      7 
+## 12.69% 12.73% 12.84% 12.86% 12.87% 12.92% 12.98% 12.99% 13.06% 13.11% 
+##     21      2      5      1      4      3      4      6      8    115 
+## 13.12% 13.16% 13.17% 13.22% 13.23% 13.24% 13.30% 13.35% 13.43% 13.47% 
+##      1      4      1      2      5      2      2      2      4      3 
+## 13.48% 13.49% 13.55% 13.57% 13.61% 13.67% 13.72% 13.75% 13.79% 13.80% 
+##      4     25      1      1      2     23      2      2      2      1 
+## 13.85% 13.87% 13.92% 13.93% 13.98% 13.99% 14.07% 14.09% 14.11% 14.12% 
+##      4      2      2      1      8     29      2     72      7      1 
+## 14.17% 14.18% 14.22% 14.26% 14.27% 14.33% 14.35% 14.42% 14.46% 14.50% 
+##      3      1      4      2     18     69      4      2      3      1 
+## 14.59% 14.61% 14.65% 14.70% 14.72% 14.74% 14.79% 14.82% 14.83% 14.84% 
+##      5      4     29      2      3      2      2      2      3      2 
+## 14.91% 14.96% 15.01% 15.05% 15.13% 15.20% 15.21% 15.23% 15.27% 15.28% 
+##      5      6      1      4      2      1      5      7     10      2 
+## 15.31% 15.33% 15.37% 15.45% 15.57% 15.58% 15.62% 15.65% 15.68% 15.70% 
+##     76      3      1      1      1      5      3      3      1      1 
+## 15.80% 15.81% 15.95% 15.96% 15.99% 16.00% 16.02% 16.07% 16.29% 16.32% 
+##     39     10      5     10      7      2      2      2     51      8 
+## 16.35% 16.40% 16.45% 16.49% 16.63% 16.69% 16.70% 16.71% 16.77% 16.82% 
+##      1      2      1      8      1      1      1      1     11      5 
+## 16.83% 16.89% 17.04% 17.14% 17.15% 17.19% 17.27% 17.43% 17.44% 17.49% 
+##      1      9      1      4      1      1     56      1      1     10 
+## 17.51% 17.54% 17.56% 17.58% 17.77% 17.80% 17.88% 17.90% 17.93% 17.99% 
+##      3      1      3      6     38      1      1      1      3     12 
+## 18.17% 18.25% 18.29% 18.30% 18.39% 18.49% 18.55% 18.62% 18.64% 18.67% 
+##      1     19      1      1      3     33      7      1      8      2 
+## 18.75% 18.79% 19.03% 19.04% 19.05% 19.13% 19.22% 19.41% 19.42% 19.47% 
+##     17      3      7      1     26      1      9      1      3      1 
+## 19.69% 19.72% 19.74% 19.91% 19.99% 20.25% 20.30% 20.49% 20.50% 20.52% 
+##      5     19      2      5      7      2      3     18      6      1 
+## 20.53% 20.77% 20.89% 20.99% 21.00% 21.14% 21.27% 21.28% 21.48% 21.49% 
+##      1      2      1      1     12      1      1      1      4     12 
+## 21.67% 21.74% 21.97% 21.98% 22.11% 22.45% 22.47% 22.78% 22.95% 23.28% 
+##      2      2      3     10      2      3     15      5      8      7 
+## 23.33% 23.63% 23.76% 23.83% 23.91% 24.20% 24.33% 24.70% 24.89%  5.42% 
+##      1      1      7      2      1      1      1      2      2     11 
+##  5.79%  5.99%  6.00%  6.03%  6.17%  6.54%  6.62%  6.76%  6.91%  6.92% 
+##     14     10      1     57      5      6     49      4      9      5 
+##  6.99%  7.14%  7.29%  7.40%  7.43%  7.49%  7.51%  7.62%  7.66%  7.68% 
+##      9      7     10      3      1     23     21     34      8      3 
+##  7.74%  7.75%  7.88%  7.90%  7.91%  8.00%  8.07%  8.32%  8.49%  8.59% 
+##      5      2     17    119      3      4      1      2     10      7 
+##  8.63%  8.88%  8.90%  8.94%  9.07%  9.20%  9.25%  9.32%  9.33%  9.62% 
+##      2      3     64      7      2      1      3      4      1      3 
+##  9.63%  9.76%  9.88%  9.91%  9.99% 
+##     11     21      4     13     11
+</code></pre>
+
+<pre><code class="r">loansRaw[loansRaw$Amount.Funded.By.Investors &lt;= 10, ]
+</code></pre>
+
+<pre><code>##        Amount.Requested Amount.Funded.By.Investors Interest.Rate
+## 102519             7500                       0.00        11.03%
+## 102441             7500                      -0.01        12.29%
+## 1034               5000                       0.00         8.63%
+## 1324               4000                       0.00         7.68%
+## 102444             2200                      -0.01        13.87%
+## 102503             3600                       0.00        13.24%
+##        Loan.Length       Loan.Purpose Debt.To.Income.Ratio State
+## 102519   36 months        credit_card               11.41%    AL
+## 102441   36 months        educational               21.34%    CA
+## 1034     36 months debt_consolidation                1.92%    NJ
+## 1324     36 months              other               10.74%    GA
+## 102444   36 months        credit_card               10.35%    NJ
+## 102503   36 months              other                9.14%    OK
+##        Home.Ownership Monthly.Income FICO.Range Open.CREDIT.Lines
+## 102519       MORTGAGE           3750    685-689                15
+## 102441       MORTGAGE           8750    685-689                14
+## 1034             RENT           2600    730-734                13
+## 1324             RENT           3417    790-794                11
+## 102444           RENT           3333    640-644                10
+## 102503           RENT           6290    655-659                 7
+##        Revolving.CREDIT.Balance Inquiries.in.the.Last.6.Months
+## 102519                     5148                              7
+## 102441                    20947                              7
+## 1034                        814                              0
+## 1324                       2775                              3
+## 102444                    11606                              1
+## 102503                     3453                              0
+##        Employment.Length
+## 102519           6 years
+## 102441           5 years
+## 1034             8 years
+## 1324              1 year
+## 102444           3 years
+## 102503          &lt; 1 year
+</code></pre>
+
+</body>
+
+</html>
+
