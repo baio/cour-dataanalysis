@@ -74,3 +74,93 @@ table(loansRaw$Inquiries.in.the.Last.6.Months)
 table(loansRaw$Employment.Length)
 ```
 
+### Plot rate by FICO
+```{r, dependson="loadData"}
+plot(loansRaw$FICO.Range, rates,pch=19, las=2)
+```
+
+Have correlation between FICO and Rate.
+Than bigger FICO than less Rate. 
+Since FICO is aggregation of other factors, cofounders should be found
+
+### Plot Rate by FICO with color groups for loan lengths 
+```{r, dependson="loadData"}
+plot(as.numeric(loansRaw$FICO.Range), rates, pch=19, col=loansRaw$Loan.Length)
+```
+Rates smaller than loan length smaller.
+
+### Plot Rate by Ratio
+```{r, dependson="loadData"}
+plot(ratio, rates, pch=19, col=loansRaw$Loan.Length)
+```
+No obvious correlation
+
+### Plot rate by FICO
+```{r, dependson="loadData"}
+plot(ratio, rates, pch=19, las=2)
+```
+No obvious correlation
+
+### Plot rate by income
+```{r, dependson="loadData"}
+plot(log(loansRaw$Monthly.Income), rates, pch=19, las=2, col=loansRaw$Loan.Length)
+```
+Again no obvious correlation here
+
+### Plot rate by employment length
+```{r, dependson="loadData"}
+plot(rates, loansRaw$Employment.Length, pch=19, las=2, col=loansRaw$Loan.Length)
+```
+No correlation here
+
+### Plot rate by credit lines
+```{r, dependson="loadData"}
+plot(rates, loansRaw$Open.CREDIT.Lines)#, cex=as.numeric(loansRaw$Loan.Length), col=as.numeric(loansRaw$Open.CREDIT.Lines))
+```
+
+### Plot rate by purpose
+```{r, dependson="loadData"}
+plot(loansRaw$Loan.Purpose, rates, las=2)#, cex=as.numeric(loansRaw$Loan.Length), col=as.numeric(loansRaw$Open.CREDIT.Lines))
+```
+In general car, educational and energy has lower rate, maby because they are short term and then loan length is cofounder here
+
+### Plot rate by purpose
+```{r, dependson="loadData"}
+plot(as.numeric(loansRaw$Loan.Purpose), rates, col=loansRaw$Loan.Length)#, cex=as.numeric(loansRaw$Loan.Length), col=as.numeric(loansRaw$Open.CREDIT.Lines))
+
+```
+
+### Plot rate by purpose (long teram term)
+```{r, dependson="loadData"}
+plot(loansRaw$Loan.Purpose[as.numeric(loansRaw$Loan.Length) == 2], rates[as.numeric(loansRaw$Loan.Length) == 2], las=2)#, cex=as.numeric(loansRaw$Loan.Length), col=as.numeric(loansRaw$Open.CREDIT.Lines))
+```
+
+
+### Plot rate by Inquiries.in.the.Last.6.Months 
+```{r, dependson="loadData"}
+plot(loansRaw$Inquiries.in.the.Last.6.Months, rates)#, cex=as.numeric(loansRaw$Loan.Length), col=as.numeric(loansRaw$Open.CREDIT.Lines))
+```
+Than more quantity of inquires than more rate (at least it works after 3)
+
+
+This is evident what main factors which impact rate are FICO and loan length. Loan length in own way is an aggregated value http://en.wikipedia.org/wiki/Credit_score_in_the_United_States.
+
+Now lets try to indentify whats else could affect rate.
+
+------
+
+## Modeling
+```
+lm1 <- lm(rates ~ as.numeric(loansRaw$FICO.Range) + as.numeric(loansRaw$Loan.Length) + loansRaw$Loan.Purpose)
+summary(lm1)
+
+lm2 <- lm(rates ~ as.numeric(loansRaw$FICO.Range) + as.numeric(loansRaw$Loan.Length) + loansRaw$Inquiries.in.the.Last.6.Months + loansRaw$Revolving.CREDIT.Balance)
+summary(lm2)
+
+lm3 <- lm(rates ~ as.numeric(loansRaw$FICO.Range) + as.numeric(loansRaw$Loan.Length) + loansRaw$Revolving.CREDIT.Balance) +   loansRaw$Home.Ownership)
+summary(lm3)
+
+lm4 <- lm(rates ~ as.numeric(loansRaw$FICO.Range) + as.numeric(loansRaw$Loan.Length) +   loansRaw$Home.Ownership)
+summary(lm4)
+
+```

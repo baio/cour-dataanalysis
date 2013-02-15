@@ -176,6 +176,27 @@ max(rates)
 ## [1] 24.89
 ```
 
+
+### Find minimum and maximum debts to income ratio
+
+```r
+ratio <- as.numeric(sub("%", "", loansRaw$Debt.To.Income.Ratio))
+min(ratio)
+```
+
+```
+## [1] 0
+```
+
+```r
+max(ratio)
+```
+
+```
+## [1] 34.91
+```
+
+
 --------------------------
 
 ## Exploratory analysis
@@ -188,25 +209,61 @@ max(rates)
 hist(rates)
 ```
 
-![plot of chunk unnamed-chunk-4](figure/unnamed-chunk-41.png) 
+![plot of chunk unnamed-chunk-5](figure/unnamed-chunk-51.png) 
+
+```r
+hist(ratio)
+```
+
+![plot of chunk unnamed-chunk-5](figure/unnamed-chunk-52.png) 
+
+```r
+hist(log(loansRaw$Monthly.Income), breaks = 50)
+```
+
+![plot of chunk unnamed-chunk-5](figure/unnamed-chunk-53.png) 
 
 ```r
 plot(loansRaw$FICO.Range, las = 2)
 ```
 
-![plot of chunk unnamed-chunk-4](figure/unnamed-chunk-42.png) 
+![plot of chunk unnamed-chunk-5](figure/unnamed-chunk-54.png) 
 
 ```r
 hist(loansRaw$Amount.Requested)
 ```
 
-![plot of chunk unnamed-chunk-4](figure/unnamed-chunk-43.png) 
+![plot of chunk unnamed-chunk-5](figure/unnamed-chunk-55.png) 
 
 ```r
 hist(loansRaw$Amount.Funded.By.Investors)
 ```
 
-![plot of chunk unnamed-chunk-4](figure/unnamed-chunk-44.png) 
+![plot of chunk unnamed-chunk-5](figure/unnamed-chunk-56.png) 
+
+```r
+hist(loansRaw$Open.CREDIT.Lines)
+```
+
+![plot of chunk unnamed-chunk-5](figure/unnamed-chunk-57.png) 
+
+```r
+hist(log(loansRaw$Revolving.CREDIT.Balance), breaks = 50)
+```
+
+![plot of chunk unnamed-chunk-5](figure/unnamed-chunk-58.png) 
+
+```r
+plot(loansRaw$Employment.Length, las = 2)
+```
+
+![plot of chunk unnamed-chunk-5](figure/unnamed-chunk-59.png) 
+
+```r
+plot(loansRaw$Home.Ownership, las = 2)
+```
+
+![plot of chunk unnamed-chunk-5](figure/unnamed-chunk-510.png) 
 
 
 ### Make some univariate tables
@@ -294,45 +351,197 @@ table(loansRaw$Interest.Rate)
 ```
 
 ```r
-loansRaw[loansRaw$Amount.Funded.By.Investors <= 10, ]
+table(loansRaw$Loan.Length)
 ```
 
 ```
-##        Amount.Requested Amount.Funded.By.Investors Interest.Rate
-## 102519             7500                       0.00        11.03%
-## 102441             7500                      -0.01        12.29%
-## 1034               5000                       0.00         8.63%
-## 1324               4000                       0.00         7.68%
-## 102444             2200                      -0.01        13.87%
-## 102503             3600                       0.00        13.24%
-##        Loan.Length       Loan.Purpose Debt.To.Income.Ratio State
-## 102519   36 months        credit_card               11.41%    AL
-## 102441   36 months        educational               21.34%    CA
-## 1034     36 months debt_consolidation                1.92%    NJ
-## 1324     36 months              other               10.74%    GA
-## 102444   36 months        credit_card               10.35%    NJ
-## 102503   36 months              other                9.14%    OK
-##        Home.Ownership Monthly.Income FICO.Range Open.CREDIT.Lines
-## 102519       MORTGAGE           3750    685-689                15
-## 102441       MORTGAGE           8750    685-689                14
-## 1034             RENT           2600    730-734                13
-## 1324             RENT           3417    790-794                11
-## 102444           RENT           3333    640-644                10
-## 102503           RENT           6290    655-659                 7
-##        Revolving.CREDIT.Balance Inquiries.in.the.Last.6.Months
-## 102519                     5148                              7
-## 102441                    20947                              7
-## 1034                        814                              0
-## 1324                       2775                              3
-## 102444                    11606                              1
-## 102503                     3453                              0
-##        Employment.Length
-## 102519           6 years
-## 102441           5 years
-## 1034             8 years
-## 1324              1 year
-## 102444           3 years
-## 102503          < 1 year
+## 
+## 36 months 60 months 
+##      1952       548
+```
+
+```r
+table(loansRaw$State)
+```
+
+```
+## 
+##  AK  AL  AR  AZ  CA  CO  CT  DC  DE  FL  GA  HI  IA  IL  IN  KS  KY  LA 
+##  11  38  13  46 433  61  50  11   8 169  98  12   1 101   3  21  23  22 
+##  MA  MD  MI  MN  MO  MS  MT  NC  NH  NJ  NM  NV  NY  OH  OK  OR  PA  RI 
+##  73  68  45  38  33   1   7  64  15  94  13  32 255  71  21  30  96  15 
+##  SC  SD  TX  UT  VA  VT  WA  WI  WV  WY 
+##  28   4 174  16  78   5  58  26  15   4
+```
+
+```r
+table(loansRaw$Loan.Purpose)
+```
+
+```
+## 
+##                car        credit_card debt_consolidation 
+##                 50                444               1307 
+##        educational   home_improvement              house 
+##                 15                152                 20 
+##     major_purchase            medical             moving 
+##                101                 30                 29 
+##              other   renewable_energy     small_business 
+##                201                  4                 87 
+##           vacation            wedding 
+##                 21                 39
+```
+
+```r
+table(loansRaw$Home.Ownership)
+```
+
+```
+## 
+## MORTGAGE     NONE    OTHER      OWN     RENT 
+##     1148        1        5      200     1146
+```
+
+```r
+table(loansRaw$Inquiries.in.the.Last.6.Months)
+```
+
+```
+## 
+##    0    1    2    3    4    5    6    7    8    9 
+## 1250  657  336  169   50   14    8    7    2    5
+```
+
+```r
+table(loansRaw$Employment.Length)
+```
+
+```
+## 
+##  < 1 year    1 year 10+ years   2 years   3 years   4 years   5 years 
+##       250       177       653       244       235       192       202 
+##   6 years   7 years   8 years   9 years       n/a 
+##       163       127       108        72        77
 ```
 
 
+### Plot rate by FICO
+
+```r
+plot(loansRaw$FICO.Range, rates, pch = 19, las = 2)
+```
+
+![plot of chunk unnamed-chunk-7](figure/unnamed-chunk-7.png) 
+
+
+Have correlation between FICO and Rate.
+Than bigger FICO than less Rate. 
+Since FICO is aggregation of other factors, cofounders should be found
+
+### Plot Rate by FICO with color groups for loan lengths 
+
+```r
+plot(as.numeric(loansRaw$FICO.Range), rates, pch = 19, col = loansRaw$Loan.Length)
+```
+
+![plot of chunk unnamed-chunk-8](figure/unnamed-chunk-8.png) 
+
+Rates smaller than loan length smaller.
+
+### Plot Rate by Ratio
+
+```r
+plot(ratio, rates, pch = 19, col = loansRaw$Loan.Length)
+```
+
+![plot of chunk unnamed-chunk-9](figure/unnamed-chunk-9.png) 
+
+No obvious correlation
+
+### Plot rate by FICO
+
+```r
+plot(ratio, rates, pch = 19, las = 2)
+```
+
+![plot of chunk unnamed-chunk-10](figure/unnamed-chunk-10.png) 
+
+No obvious correlation
+
+### Plot rate by income
+
+```r
+plot(log(loansRaw$Monthly.Income), rates, pch = 19, las = 2, col = loansRaw$Loan.Length)
+```
+
+![plot of chunk unnamed-chunk-11](figure/unnamed-chunk-11.png) 
+
+Again no obvious correlation here
+
+### Plot rate by employment length
+
+```r
+plot(rates, loansRaw$Employment.Length, pch = 19, las = 2, col = loansRaw$Loan.Length)
+```
+
+![plot of chunk unnamed-chunk-12](figure/unnamed-chunk-12.png) 
+
+No correlation here
+
+### Plot rate by credit lines
+
+```r
+plot(rates, loansRaw$Open.CREDIT.Lines)  #, cex=as.numeric(loansRaw$Loan.Length), col=as.numeric(loansRaw$Open.CREDIT.Lines))
+```
+
+![plot of chunk unnamed-chunk-13](figure/unnamed-chunk-13.png) 
+
+
+### Plot rate by purpose
+
+```r
+plot(loansRaw$Loan.Purpose, rates, las = 2)  #, cex=as.numeric(loansRaw$Loan.Length), col=as.numeric(loansRaw$Open.CREDIT.Lines))
+```
+
+![plot of chunk unnamed-chunk-14](figure/unnamed-chunk-14.png) 
+
+In general car, educational and energy has lower rate, maby because they are short term and then loan length is cofounder here
+
+### Plot rate by purpose
+
+```r
+plot(as.numeric(loansRaw$Loan.Purpose), rates, col = loansRaw$Loan.Length)  #, cex=as.numeric(loansRaw$Loan.Length), col=as.numeric(loansRaw$Open.CREDIT.Lines))
+```
+
+![plot of chunk unnamed-chunk-15](figure/unnamed-chunk-15.png) 
+
+
+### Plot rate by purpose (long teram term)
+
+```r
+plot(loansRaw$Loan.Purpose[as.numeric(loansRaw$Loan.Length) == 2], rates[as.numeric(loansRaw$Loan.Length) == 
+    2], las = 2)  #, cex=as.numeric(loansRaw$Loan.Length), col=as.numeric(loansRaw$Open.CREDIT.Lines))
+```
+
+![plot of chunk unnamed-chunk-16](figure/unnamed-chunk-16.png) 
+
+
+
+### Plot rate by Inquiries.in.the.Last.6.Months 
+
+```r
+plot(loansRaw$Inquiries.in.the.Last.6.Months, rates)  #, cex=as.numeric(loansRaw$Loan.Length), col=as.numeric(loansRaw$Open.CREDIT.Lines))
+```
+
+![plot of chunk unnamed-chunk-17](figure/unnamed-chunk-17.png) 
+
+Than more quantity of inquires than more rate (at least it works after 3)
+
+
+This is evident what main factors which impact rate are FICO and loan length. Loan length in own way is an aggregated value http://en.wikipedia.org/wiki/Credit_score_in_the_United_States.
+
+Now lets try to indentify whats else could affect rate.
+
+------
+
+## Modeling
