@@ -284,7 +284,6 @@ lines <- cut(as.numeric(loansRaw$Open.CREDIT.Lines), 3)
 #lmA <- lm(rates ~ range + loansRaw$Loan.Length + loansRaw$Inquiries.in.the.Last.6.Months + loansRaw$Amount.Funded.By.Investors + loansRaw$Monthly.Income + #loansRaw$Home.Ownership)
 lmA <- lm(rates ~ loansRaw$Amount.Funded.By.Investors + range + loansRaw$Loan.Length + loansRaw$Inquiries.in.the.Last.6.Months +  loansRaw$Home.Ownership)
 summary(lmA)
-as.numeric(loansRaw$Loan.Length) == 2
 plot(as.numeric(loansRaw$FICO.Range), rates, pch = 19, col = loansRaw$Loan.Length)
 plot(loansRaw$Amount.Funded.By.Investors, rates, col=range, pch=19)
 plot(loansRaw$Amount.Funded.By.Investors, rates, col=range, pch=ifelse(as.numeric(loansRaw$Loan.Length) == 2, 19, 21))

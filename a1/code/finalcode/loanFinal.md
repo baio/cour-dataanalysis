@@ -226,26 +226,6 @@ max(rates)
 ```
 
 
-### Find minimum and maximum debts to income ratio
-
-```r
-ratio <- as.numeric(sub("%", "", loansRaw$Debt.To.Income.Ratio))
-min(ratio)
-```
-
-```
-## [1] 0
-```
-
-```r
-max(ratio)
-```
-
-```
-## [1] 34.91
-```
-
-
 --------------------------
 
 ## Exploratory analysis
@@ -258,61 +238,43 @@ max(ratio)
 hist(rates)
 ```
 
-![plot of chunk unnamed-chunk-6](figure/unnamed-chunk-61.png) 
-
-```r
-hist(ratio)
-```
-
-![plot of chunk unnamed-chunk-6](figure/unnamed-chunk-62.png) 
+![plot of chunk unnamed-chunk-5](figure/unnamed-chunk-51.png) 
 
 ```r
 hist(log(loansRaw$Monthly.Income), breaks = 50)
 ```
 
-![plot of chunk unnamed-chunk-6](figure/unnamed-chunk-63.png) 
+![plot of chunk unnamed-chunk-5](figure/unnamed-chunk-52.png) 
 
 ```r
 plot(loansRaw$FICO.Range, las = 2)
 ```
 
-![plot of chunk unnamed-chunk-6](figure/unnamed-chunk-64.png) 
-
-```r
-hist(loansRaw$Amount.Requested)
-```
-
-![plot of chunk unnamed-chunk-6](figure/unnamed-chunk-65.png) 
+![plot of chunk unnamed-chunk-5](figure/unnamed-chunk-53.png) 
 
 ```r
 hist(loansRaw$Amount.Funded.By.Investors)
 ```
 
-![plot of chunk unnamed-chunk-6](figure/unnamed-chunk-66.png) 
+![plot of chunk unnamed-chunk-5](figure/unnamed-chunk-54.png) 
 
 ```r
 hist(loansRaw$Open.CREDIT.Lines)
 ```
 
-![plot of chunk unnamed-chunk-6](figure/unnamed-chunk-67.png) 
+![plot of chunk unnamed-chunk-5](figure/unnamed-chunk-55.png) 
 
 ```r
 hist(log(loansRaw$Revolving.CREDIT.Balance), breaks = 50)
 ```
 
-![plot of chunk unnamed-chunk-6](figure/unnamed-chunk-68.png) 
+![plot of chunk unnamed-chunk-5](figure/unnamed-chunk-56.png) 
 
 ```r
 plot(loansRaw$Employment.Length, las = 2)
 ```
 
-![plot of chunk unnamed-chunk-6](figure/unnamed-chunk-69.png) 
-
-```r
-plot(loansRaw$Home.Ownership, las = 2)
-```
-
-![plot of chunk unnamed-chunk-6](figure/unnamed-chunk-610.png) 
+![plot of chunk unnamed-chunk-5](figure/unnamed-chunk-57.png) 
 
 
 ### Make some univariate tables
@@ -510,12 +472,12 @@ table(loansRaw$Employment.Length)
 plot(loansRaw$FICO.Range, rates, pch = 19, las = 2)
 ```
 
-![plot of chunk unnamed-chunk-8](figure/unnamed-chunk-8.png) 
+![plot of chunk unnamed-chunk-7](figure/unnamed-chunk-7.png) 
 
 
 Have correlation between FICO and Rate.
 Than bigger FICO than less Rate. 
-Since FICO is aggregation of other factors, cofounders should be found
+FICO is itslef aggregation of other factors.
 
 ### Plot Rate by FICO with color groups for loan lengths 
 
@@ -523,48 +485,9 @@ Since FICO is aggregation of other factors, cofounders should be found
 plot(as.numeric(loansRaw$FICO.Range), rates, pch = 19, col = loansRaw$Loan.Length)
 ```
 
-![plot of chunk unnamed-chunk-9](figure/unnamed-chunk-9.png) 
+![plot of chunk unnamed-chunk-8](figure/unnamed-chunk-8.png) 
 
 Rates smaller than loan length smaller.
-
-### Plot Rate by Ratio
-
-```r
-plot(ratio, rates, pch = 19, col = loansRaw$Loan.Length)
-```
-
-![plot of chunk unnamed-chunk-10](figure/unnamed-chunk-10.png) 
-
-No obvious correlation
-
-### Plot rate by income
-
-```r
-plot(log(loansRaw$Monthly.Income), rates, pch = 19, col = loansRaw$Loan.Length)
-```
-
-![plot of chunk unnamed-chunk-11](figure/unnamed-chunk-11.png) 
-
-Again no obvious correlation here
-
-### Plot rate by employment length
-
-```r
-plot(loansRaw$Employment.Length, rates, pch = 19, las = 2, col = loansRaw$Loan.Length)
-```
-
-![plot of chunk unnamed-chunk-12](figure/unnamed-chunk-12.png) 
-
-No correlation here
-
-### Plot rate by credit lines
-
-```r
-plot(loansRaw$Open.CREDIT.Lines, rates)
-```
-
-![plot of chunk unnamed-chunk-13](figure/unnamed-chunk-13.png) 
-
 
 ### Plot rate by purpose
 
@@ -572,20 +495,9 @@ plot(loansRaw$Open.CREDIT.Lines, rates)
 plot(loansRaw$Loan.Purpose, rates, las = 2)
 ```
 
-![plot of chunk unnamed-chunk-14](figure/unnamed-chunk-14.png) 
+![plot of chunk unnamed-chunk-9](figure/unnamed-chunk-9.png) 
 
 In general car, educational and energy has lower rate, maby because they are short term and then loan length is cofounder here
-
-
-### Plot rate by purpose (long teram term)
-
-```r
-plot(loansRaw$Loan.Purpose[as.numeric(loansRaw$Loan.Length) == 2], rates[as.numeric(loansRaw$Loan.Length) == 
-    2], las = 2)  #, cex=as.numeric(loansRaw$Loan.Length), col=as.numeric(loansRaw$Open.CREDIT.Lines))
-```
-
-![plot of chunk unnamed-chunk-15](figure/unnamed-chunk-15.png) 
-
 
 
 ### Plot rate by Inquiries.in.the.Last.6.Months 
@@ -594,14 +506,10 @@ plot(loansRaw$Loan.Purpose[as.numeric(loansRaw$Loan.Length) == 2], rates[as.nume
 plot(loansRaw$Inquiries.in.the.Last.6.Months, rates, col = loansRaw$Loan.Length)
 ```
 
-![plot of chunk unnamed-chunk-16](figure/unnamed-chunk-16.png) 
+![plot of chunk unnamed-chunk-10](figure/unnamed-chunk-10.png) 
 
-Than more quantity of inquires than more rate (at least this works after 3)
+Than more quantity of inquires than more rate (at least this works after 3d inquiry)
 
-
-This is evident what main factors which impact rate are FICO and loan length. Loan length in own way is an aggregated value http://en.wikipedia.org/wiki/Credit_score_in_the_United_States.
-
-Now lets try to indentify whats else could affect rate.
 
 ------
 
@@ -611,43 +519,11 @@ Now lets try to indentify whats else could affect rate.
 
 ```r
 lm1 <- lm(rates ~ loansRaw$FICO.Range)
-# summary(lm1) confint(lm1) anova(lm1)
 plot(loansRaw$FICO.Range, rates, las = 2)
 points(loansRaw$FICO.Range, lm1$fitted, pch = 19, col = "red")
 ```
 
-![plot of chunk unnamed-chunk-17](figure/unnamed-chunk-17.png) 
-
-
-### Fit a rates by Length
-
-```r
-lm2 <- lm(rates ~ loansRaw$Loan.Length)
-plot(loansRaw$Loan.Length, rates)
-points(loansRaw$Loan.Length, lm2$fitted, pch = 19, col = "red")
-```
-
-![plot of chunk unnamed-chunk-18](figure/unnamed-chunk-18.png) 
-
-```r
-
-# summary(lm2) confint(lm2) anova(lm2)
-```
-
-
-### Fit a rates by Amount.Requested
-
-```r
-lm3 <- lm(rates ~ loansRaw$Amount.Requested)
-plot(loansRaw$Amount.Requested, rates)
-points(loansRaw$Amount.Requested, lm3$fitted, pch = 19, col = "red")
-```
-
-![plot of chunk unnamed-chunk-19](figure/unnamed-chunk-19.png) 
-
-```r
-# summary(lm3) confint(lm3) anova(lm3)
-```
+![plot of chunk unnamed-chunk-11](figure/unnamed-chunk-11.png) 
 
 
 ###Fit a rates by loansRaw$Amount.Funded.By.Investors
@@ -658,89 +534,7 @@ plot(loansRaw$Amount.Funded.By.Investors, rates)
 points(loansRaw$Amount.Funded.By.Investors, lm4$fitted, pch = 19, col = "red")
 ```
 
-![plot of chunk unnamed-chunk-20](figure/unnamed-chunk-20.png) 
-
-```r
-# summary(lm4) confint(lm4) anova(lm4)
-```
-
-
-###Fit a rates by loansRaw$Loan.Purpose
-
-```r
-lm5 <- lm(rates ~ relevel(loansRaw$Loan.Purpose, ref = "debt_consolidation"))
-plot(loansRaw$Loan.Purpose, rates, las = 2)
-points(loansRaw$Loan.Purpose, lm5$fitted, pch = 19, col = "red")
-```
-
-![plot of chunk unnamed-chunk-21](figure/unnamed-chunk-21.png) 
-
-```r
-# summary(lm5) confint(lm5) anova(lm5)
-```
-
-
-###Fit a rates by ratio
-
-```r
-ratioGroups = cut(ratio, 10)
-lm6 <- lm(rates ~ ratioGroups)
-plot(ratioGroups, rates, las = 2)
-points(ratioGroups, lm6$fitted, pch = 19, col = "red")
-```
-
-![plot of chunk unnamed-chunk-22](figure/unnamed-chunk-22.png) 
-
-```r
-# summary(lm6) confint(lm6) anova(lm6)
-```
-
-
-###Fit a rates by ratio
-
-```r
-lm7 <- lm(rates ~ loansRaw$State)
-plot(loansRaw$State, rates, las = 2)
-points(loansRaw$State, lm7$fitted, pch = 19, col = "red")
-```
-
-![plot of chunk unnamed-chunk-23](figure/unnamed-chunk-23.png) 
-
-```r
-# summary(lm7) confint(lm7) anova(lm7)
-```
-
-
-###Fit a rates by Ownership
-
-```r
-lm8 <- lm(rates ~ loansRaw$Home.Ownership)
-plot(loansRaw$Home.Ownership, rates, las = 2)
-points(loansRaw$Home.Ownership, lm8$fitted, pch = 19, col = "red")
-```
-
-![plot of chunk unnamed-chunk-24](figure/unnamed-chunk-24.png) 
-
-```r
-# summary(lm8) confint(lm8) anova(lm8)
-```
-
-
-###Fit a rates by log(Monthly.Income)
-
-```r
-rates1 <- rates[!is.na(loansRaw$Monthly.Income)]
-income <- log(loansRaw$Monthly.Income[!is.na(loansRaw$Monthly.Income)])
-lm9 <- lm(rates1 ~ income)
-plot(income, rates1, las = 2)
-points(income, lm9$fitted, pch = 19, col = "red")
-```
-
-![plot of chunk unnamed-chunk-25](figure/unnamed-chunk-25.png) 
-
-```r
-# confint(lm9) anova(lm9)
-```
+![plot of chunk unnamed-chunk-12](figure/unnamed-chunk-12.png) 
 
 
 ###Fit a rates by Open.CREDIT.Lines
@@ -753,11 +547,7 @@ plot(lines, rates1, las = 2)
 points(lines, lm10$fitted, pch = 19, col = "red")
 ```
 
-![plot of chunk unnamed-chunk-26](figure/unnamed-chunk-26.png) 
-
-```r
-# summary(lm10) confint(lm10) anova(lm10)
-```
+![plot of chunk unnamed-chunk-13](figure/unnamed-chunk-13.png) 
 
 
 ###Fit a rates by Inquiries.in.the.Last.6.Months
@@ -770,40 +560,23 @@ plot(inquires, rates1)
 points(inquires, lm11$fitted, pch = 19, col = "red")
 ```
 
-![plot of chunk unnamed-chunk-27](figure/unnamed-chunk-27.png) 
+![plot of chunk unnamed-chunk-14](figure/unnamed-chunk-14.png) 
 
-```r
-# summary(lm11) confint(lm11) anova(lm11)
-```
-
-
-###Fit a rates by loansRaw$Employment.Length
-
-```r
-rates1 <- rates[!is.na(loansRaw$Employment.Length)]
-employment <- loansRaw$Employment.Length[!is.na(loansRaw$Employment.Length)]
-lm12 <- lm(rates1 ~ employment)
-plot(employment, rates1, las = 2)
-points(employment, lm12$fitted, pch = 19, col = "red")
-```
-
-![plot of chunk unnamed-chunk-28](figure/unnamed-chunk-28.png) 
-
-```r
-# summary(lm12) confint(lm12) anova(lm12)
-```
 
 ## Let's use this model
 
 
 ```r
 ratio1 <- cut(ratio, 3)
+```
+
+```
+## Error: object 'ratio' not found
+```
+
+```r
 range <- cut(as.numeric(loansRaw$FICO.Range), 5)
 lines <- cut(as.numeric(loansRaw$Open.CREDIT.Lines), 3)
-# lmA <- lm(rates ~ range + loansRaw$Loan.Length +
-# loansRaw$Inquiries.in.the.Last.6.Months +
-# loansRaw$Amount.Funded.By.Investors + loansRaw$Monthly.Income +
-# #loansRaw$Home.Ownership)
 lmA <- lm(rates ~ loansRaw$Amount.Funded.By.Investors + range + loansRaw$Loan.Length + 
     loansRaw$Inquiries.in.the.Last.6.Months + loansRaw$Home.Ownership)
 summary(lmA)
@@ -1093,18 +866,18 @@ as.numeric(loansRaw$Loan.Length) == 2
 plot(as.numeric(loansRaw$FICO.Range), rates, pch = 19, col = loansRaw$Loan.Length)
 ```
 
-![plot of chunk unnamed-chunk-29](figure/unnamed-chunk-291.png) 
+![plot of chunk unnamed-chunk-15](figure/unnamed-chunk-151.png) 
 
 ```r
 plot(loansRaw$Amount.Funded.By.Investors, rates, col = range, pch = 19)
 ```
 
-![plot of chunk unnamed-chunk-29](figure/unnamed-chunk-292.png) 
+![plot of chunk unnamed-chunk-15](figure/unnamed-chunk-152.png) 
 
 ```r
 plot(loansRaw$Amount.Funded.By.Investors, rates, col = range, pch = ifelse(as.numeric(loansRaw$Loan.Length) == 
     2, 19, 21))
 ```
 
-![plot of chunk unnamed-chunk-29](figure/unnamed-chunk-293.png) 
+![plot of chunk unnamed-chunk-15](figure/unnamed-chunk-153.png) 
 
