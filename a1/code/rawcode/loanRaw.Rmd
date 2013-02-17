@@ -1,5 +1,12 @@
 Raw Loan Analysis
 ========================
+
+### Load libraries
+
+```{r}
+library(Hmisc)
+```
+
   
 ## Processing
 
@@ -95,40 +102,29 @@ plot(ratio, rates, pch=19, col=loansRaw$Loan.Length)
 ```
 No obvious correlation
 
-### Plot rate by FICO
-```{r, dependson="loadData"}
-plot(ratio, rates, pch=19, las=2)
-```
-No obvious correlation
-
 ### Plot rate by income
 ```{r, dependson="loadData"}
-plot(log(loansRaw$Monthly.Income), rates, pch=19, las=2, col=loansRaw$Loan.Length)
+plot(log(loansRaw$Monthly.Income), rates, pch=19, col=loansRaw$Loan.Length)
 ```
 Again no obvious correlation here
 
 ### Plot rate by employment length
 ```{r, dependson="loadData"}
-plot(rates, loansRaw$Employment.Length, pch=19, las=2, col=loansRaw$Loan.Length)
+plot(loansRaw$Employment.Length, rates, pch=19, las=2, col=loansRaw$Loan.Length)
 ```
 No correlation here
 
 ### Plot rate by credit lines
 ```{r, dependson="loadData"}
-plot(rates, loansRaw$Open.CREDIT.Lines)#, cex=as.numeric(loansRaw$Loan.Length), col=as.numeric(loansRaw$Open.CREDIT.Lines))
+plot(loansRaw$Open.CREDIT.Lines, rates)
 ```
 
 ### Plot rate by purpose
 ```{r, dependson="loadData"}
-plot(loansRaw$Loan.Purpose, rates, las=2)#, cex=as.numeric(loansRaw$Loan.Length), col=as.numeric(loansRaw$Open.CREDIT.Lines))
+plot(loansRaw$Loan.Purpose, rates, las=2)
 ```
 In general car, educational and energy has lower rate, maby because they are short term and then loan length is cofounder here
 
-### Plot rate by purpose
-```{r, dependson="loadData"}
-plot(as.numeric(loansRaw$Loan.Purpose), rates, col=loansRaw$Loan.Length)#, cex=as.numeric(loansRaw$Loan.Length), col=as.numeric(loansRaw$Open.CREDIT.Lines))
-
-```
 
 ### Plot rate by purpose (long teram term)
 ```{r, dependson="loadData"}
@@ -138,9 +134,9 @@ plot(loansRaw$Loan.Purpose[as.numeric(loansRaw$Loan.Length) == 2], rates[as.nume
 
 ### Plot rate by Inquiries.in.the.Last.6.Months 
 ```{r, dependson="loadData"}
-plot(loansRaw$Inquiries.in.the.Last.6.Months, rates)#, cex=as.numeric(loansRaw$Loan.Length), col=as.numeric(loansRaw$Open.CREDIT.Lines))
+plot(loansRaw$Inquiries.in.the.Last.6.Months, rates, col=loansRaw$Loan.Length)
 ```
-Than more quantity of inquires than more rate (at least it works after 3)
+Than more quantity of inquires than more rate (at least this works after 3)
 
 
 This is evident what main factors which impact rate are FICO and loan length. Loan length in own way is an aggregated value http://en.wikipedia.org/wiki/Credit_score_in_the_United_States.
@@ -150,17 +146,126 @@ Now lets try to indentify whats else could affect rate.
 ------
 
 ## Modeling
-```
-lm1 <- lm(rates ~ as.numeric(loansRaw$FICO.Range) + as.numeric(loansRaw$Loan.Length) + loansRaw$Loan.Purpose)
+
+### Fit a rates by FICO.Range
+```{r, dependson="loadData"}
+lm1 <- lm(rates ~loansRaw$FICO.Range)
 summary(lm1)
+#confint(lm1)
+#anova(lm1) 
+plot(loansRaw$FICO.Range, rates)
+points(loansRaw$FICO.Range, lm1$fitted,pch=19,col="red")
+```
 
-lm2 <- lm(rates ~ as.numeric(loansRaw$FICO.Range) + as.numeric(loansRaw$Loan.Length) + loansRaw$Inquiries.in.the.Last.6.Months + loansRaw$Revolving.CREDIT.Balance)
-summary(lm2)
+### Fit a rates by Length
+```
+lm2 <- lm(rates ~loansRaw$Loan.Length)
+plot(loansRaw$Loan.Length, rates)
+points(loansRaw$Loan.Length, lm2$fitted,pch=19,col="red")
 
-lm3 <- lm(rates ~ as.numeric(loansRaw$FICO.Range) + as.numeric(loansRaw$Loan.Length) + loansRaw$Revolving.CREDIT.Balance) +   loansRaw$Home.Ownership)
-summary(lm3)
+#summary(lm2)
+#confint(lm2)
+#anova(lm2) 
 
-lm4 <- lm(rates ~ as.numeric(loansRaw$FICO.Range) + as.numeric(loansRaw$Loan.Length) +   loansRaw$Home.Ownership)
-summary(lm4)
+```
 
+### Fit a rates by Amount.Requested
+```
+lm3 <- lm(rates ~loansRaw$Amount.Requested)
+plot(loansRaw$Amount.Requested, rates)
+points(loansRaw$Amount.Requested, lm3$fitted,pch=19,col="red")
+#summary(lm3)
+#confint(lm3)
+#anova(lm3) 
+```
+
+###Fit a rates by loansRaw$Amount.Funded.By.Investors
+```
+lm4 <- lm(rates ~ loansRaw$Amount.Funded.By.Investors)
+plot(loansRaw$Amount.Funded.By.Investors, rates)
+points(loansRaw$Amount.Funded.By.Investors, lm4$fitted,pch=19,col="red")
+#summary(lm4)
+#confint(lm4)
+#anova(lm4) 
+```
+
+###Fit a rates by loansRaw$Loan.Purpose
+```
+lm5 <- lm(rates ~ relevel(loansRaw$Loan.Purpose, ref="debt_consolidation"))
+plot(loansRaw$Loan.Purpose, rates, las=2)
+points(loansRaw$Loan.Purpose, lm5$fitted,pch=19,col="red")
+#summary(lm5)
+#confint(lm5)
+#anova(lm5) 
+```
+
+###Fit a rates by ratio
+```
+ratioGroups = cut(ratio,10)
+lm6 <- lm(rates ~ ratioGroups)
+plot(ratioGroups, rates, las=2)
+points(ratioGroups, lm6$fitted,pch=19,col="red")
+#summary(lm6)
+#confint(lm6)
+#anova(lm6) 
+```
+
+###Fit a rates by ratio
+```
+lm7 <- lm(rates ~ loansRaw$State)
+plot(loansRaw$State, rates, las=2)
+points(loansRaw$State, lm7$fitted,pch=19,col="red")
+#summary(lm7)
+#confint(lm7)
+#anova(lm7) 
+```
+
+###Fit a rates by Ownership
+```
+lm8 <- lm(rates ~ loansRaw$Home.Ownership)
+plot(loansRaw$Home.Ownership, rates, las=2)
+points(loansRaw$Home.Ownership, lm8$fitted,pch=19,col="red")
+#summary(lm8)
+#confint(lm8)
+#anova(lm8) 
+```
+
+###Fit a rates by Monthly.Income
+```
+lm9 <- lm(rates ~ loansRaw$Monthly.Income)
+plot(loansRaw$Monthly.Income, rates, las=2)
+points(loansRaw$Monthly.Income, lm9$fitted,pch=19,col="red")
+#summary(lm9)
+#confint(lm9)
+#anova(lm9) 
+```
+
+###Fit a rates by Open.CREDIT.Lines
+```
+lm10 <- lm(rates ~ loansRaw$Open.CREDIT.Lines)
+plot(loansRaw$Open.CREDIT.Lines, rates, las=2)
+points(loansRaw$Open.CREDIT.Lines, lm10$fitted,pch=19,col="red")
+#summary(lm10)
+#confint(lm10)
+#anova(lm10) 
+```
+
+###Fit a rates by Inquiries.in.the.Last.6.Months
+```
+lm11 <- lm(rates ~ loansRaw$Inquiries.in.the.Last.6.Months)
+plot(loansRaw$Inquiries.in.the.Last.6.Months, rates)
+points(loansRaw$Inquiries.in.the.Last.6.Months, lm11$fitted,pch=19,col="red")
+#summary(lm11)
+#confint(lm11)
+#anova(lm11) 
+```
+
+###Fit a rates by loansRaw$Employment.Length
+```
+lm12 <- lm(rates ~ loansRaw$Employment.Length)
+plot(loansRaw$loansRaw$Employment.Length, rates)
+points(loansRaw$loansRaw$Employment.Length, lm12$fitted,pch=19,col="red")
+#summary(lm12)
+#confint(lm12)
+#anova(lm12) 
 ```
